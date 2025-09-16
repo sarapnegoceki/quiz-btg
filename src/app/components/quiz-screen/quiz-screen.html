@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="grid h-dvh grid-cols-3 content-center">
+    <div class="col-start-2">
+        <h1 class="w-full bg-blue-500 text-center text-white font-bold p-2">Quiz BTG</h1>
+        @if(this.questionAtual < this.quizQuestions.length) {
+            <div id="questions" class="p-6">
+                @for (item of quizQuestions; track $index; let questionId = $index) {
+                    @if (questionId === this.questionAtual) {
+                        <div id="question{{ questionId }}" class="">
+                            <p class="mb-2">{{ item.question }}</p>
+                            <form>
+                                @for (op of item.options; track $index) {
+                                    <input type="radio" name="option" id="{{op}}" value="{{op}}" (click)="putSelectOption(questionId, op)"> {{op}} <br>
+                                }
+                            </form>
+                            <div id="buttonsQuestion" class="mt-2">
+                                @if (questionId === 0) {
+                                    <button class="inline-block border border-[#000] text-[#000] bg-[#fff] w-[48%] opacity-50 rounded-sm py-2" disabled>Voltar</button>
+                                } @else {
+                                    <button class="inline-block border border-[#000] text-[#000] bg-[#fff] w-[48%] rounded-sm py-2" (click)="previousQuestion(questionId)">Voltar</button>
+                                }
+                                <button class="inline-block border border-[#000] text-[#000] float-right w-[48%] rounded-sm py-2" (click)="nextQuestion()">Próximo</button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        } @else {
+            <div id="finish" class="p-6">
+                @if (this.finalScore === 0) {
+                    <p class="text-center">Que pena! Você errou tudo!</p>
+                } @else {
+                    <p class="text-center">Parabéns! Você acertou {{ this.finalScore }} perguntas!</p>
+                }
+                <button class="inline-block border-none text-white float-right w-full rounded-sm mt-4 bg-blue-300 py-3 font-bold" (click)="restartQuiz()">Refazer Quiz</button>
+            </div>
+        }
+    </div>
+</div>
